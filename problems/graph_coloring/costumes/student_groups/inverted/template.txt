@@ -1,0 +1,7 @@
+I am a teacher, and I want to assign my {{ inst.graph.number_of_nodes() }} students to different groups. I want the groups to have fun, so I need to make sure that only students who are friends with one another are in the same group. In other words, no group can have a pair of students who aren't friends with each other. I don't need the groups to all be the same size, but I want to minimize the total number of groups.
+
+The friendships are as follows:
+{% for edge in inst.complement_graph.edges -%}
+Student {{ edge[0] }} and student {{ edge[1] }} are friends.
+{% endfor %}
+Which group should each student be assigned to? Generate a comma-separated list with each student's group, where the groups are represented by integers ranging from 1 to the total number of groups. The groups should be in the order of the students' numbers, so the first group in the list will correspond to student 1, the second group will correspond to student 2, and so on.

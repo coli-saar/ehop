@@ -1,0 +1,12 @@
+I am trying to fill a knapsack with items. Each item has a weight and a value.
+
+Find a set of items such that that the total value is as low as possible,
+but also so that there are no remaining items which can still fit in the knapsack.
+The knapsack can hold {{ inst.capacity }} kg.
+
+Here are the items I have:
+
+{% for i in range(inst.num_items) -%}
+Object {{ i }} has a weight of {{ inst.weights[i] }} kg and a value of {{ inst.profits[i] }}.
+{% endfor %}
+Generate a comma-separated list of the names of the object you put in the knapsack.

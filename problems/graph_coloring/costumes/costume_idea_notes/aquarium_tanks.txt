@@ -1,0 +1,3 @@
+nodes are species of sea creatures
+edges are predator-prey relationships
+colors are tanks/enclosures

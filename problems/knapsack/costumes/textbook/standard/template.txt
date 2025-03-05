@@ -1,0 +1,7 @@
+I am trying to fill a bag with valuable items. Each item has a weight and a value.
+
+Here are the items I have:
+{% for i in range(inst.num_items) -%}
+Item {{ i + 1 }} has a weight of {{ inst.weights[i] }} kg and a value of {{ inst.profits[i] }} €.
+{% endfor %}
+Which items should I pack to get the most value possible while also making sure the total weight of the items does not exceed the bag's capacity of {{ inst.capacity }} kg? Generate a comma-separated list of the items I should put in the bag, where each item is represented by its number.

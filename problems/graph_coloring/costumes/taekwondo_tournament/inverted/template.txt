@@ -1,0 +1,7 @@
+I am organizing a taekwondo tournament. There are {{ inst.graph.number_of_nodes() }} participants, and I need to reserve some rooms in the tournament hall for them to warm up in. I want to make sure that if two participants are not competing against each other, then they are in different rooms. This way, competitive tension will be as high as possible. I have a list of who is competing against whom, and I want to reserve as few rooms as possible while making sure no one is in the same room as a non-opponent.
+
+Here are the matchups:
+{% for edge in inst.complement_graph.edges -%}
+Participant {{ edge[0] }} and participant {{ edge[1] }} are competing against one another.
+{% endfor %}
+Which room should each participant be assigned to? Generate a comma-separated list with each participant's room, where the rooms are represented by integers ranging from 1 to the total number of rooms. The rooms should be in the order of the participants' numbers, so the first room in the list will correspond to participant 1, the second room will correspond to participant 2, and so on.

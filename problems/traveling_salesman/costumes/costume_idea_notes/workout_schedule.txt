@@ -1,0 +1,4 @@
+nodes are types of exercises
+edge weights are the overlap between two exercises (in terms of which muscles are exercised)
+tour is the order in which exercises will be performed on a weekly workout schedule
+want to minimize overlap between exercises to allow for muscle recovery

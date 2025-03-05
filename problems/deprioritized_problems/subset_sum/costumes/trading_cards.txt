@@ -1,0 +1,3 @@
+My friend and I both have small collections of baseball cards. I have a collection of cards worth the following amounts in dollars:
+{{ inst.numbers }}
+My friend has a card worth ${{ inst.target }}, and I would like to trade him some of my cards for his card. He is happy to make the trade as long as the cards I give him have equal value to his card. Please generate a comma-separated list of the values of the cards I should trade to my friend. Each number in the list should be the worth of a card from my collection.

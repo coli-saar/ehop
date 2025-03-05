@@ -1,0 +1,6 @@
+I own a small restaurant, and I have two waiters on staff. I want to assign the waiters to tables in the restaurant so they always know which tables they are responsible for. Different tables seat different numbers of customers, and I want to assign the two waiters such that the number of customers each waiter is responsible for is equal.
+The table sizes are as follows:
+{% for i, num in enumerate(inst.numbers) -%}
+Table {{ i }} seats {{ num }} customers.
+{% endfor %}
+Please generate a comma-separated list of the tables I should assign to the first waiter. Each value in the list should be the number of a table.

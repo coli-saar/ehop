@@ -1,0 +1,20 @@
+We will assign the participants in order of least opponents.
+We can start by assigning participant 1 to room 1.
+Current solution: 1,?,?,?,?,?,?,?,?
+Participant 2 is not competing against participant 1 (room 1), so we will assign them to room 2.
+Current solution: 1,2,?,?,?,?,?,?,?
+Participant 4 is also not competing against participant 1 (room 1), but they are competing against participant 2 (room 2), so we will assign them to room 2.
+Current solution: 1,2,?,2,?,?,?,?,?
+Participant 6 is competing against neither participant 1 (room 1) nor participant 2 (room 2), so we will assign them to room 3.
+Current solution: 1,2,?,2,?,3,?,?,?
+Participant 3 is not competing against participant 1 (room 1), participant 4 (room 2), or participant 6 (room 3), so we will assign them to room 4.
+Current solution: 1,2,4,2,?,3,?,?,?
+Participant 5 is competing against neither participant 1 (room 1) nor participant 4 (room 2), but they are competing against participant 6 (room 3), so we will assign them to room 3.
+Current solution: 1,2,4,2,3,3,?,?,?
+Participant 7 is not competing against participant 1 (room 1), participant 2 (room 2), participant 5 (room 3), or participant 3 (room 4), so we will assign them to room 5.
+Current solution: 1,2,4,2,3,3,5,?,?
+Participant 9 is competing against participant 1 (room 1), so we will assign them to room 1.
+Current solution: 1,2,4,2,3,3,5,?,1
+Participant 8 is competing against participant 1 (room 1) and participant 9 (room 1), so we will assign them to room 1.
+We thus have the following room assignment:
+1,2,4,2,3,3,5,1,1

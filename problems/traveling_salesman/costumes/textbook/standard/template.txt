@@ -1,0 +1,6 @@
+I am planning a trip to visit several cities. Here are the distances between each pair of cities:
+
+{% for edge in inst.graph.edges.data() -%}
+City {{ edge[0] }} and city {{ edge[1] }} are {{ edge[2]['weight'] }} miles apart.
+{% endfor %}
+What is the shortest possible route that starts at city 1, visits each city exactly once, and returns to city 1? Please generate a comma-separated list of the cities in the order I should visit them, where the cities are represented by their respective numbers.

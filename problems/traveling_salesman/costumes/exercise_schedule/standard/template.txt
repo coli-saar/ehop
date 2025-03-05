@@ -1,0 +1,6 @@
+My New Year's resolution is to be more physically active. I've made a list of {{ inst.graph.number_of_nodes() }} activities, and I want to do one of them every day. After I do an activity, I can't do it again until I've done everything else on the list. I'm going to start with activity 1 on January first, but the order in which I complete the rest is up in the air. Then, when I'm done with the list, I want to go through the activities again in the same order I used before. I've scored each pair of activities based on how similar they are, with more similar activities getting higher scores. Here are the scores:
+
+{% for edge in inst.graph.edges.data() -%}
+Activity {{ edge[0] }} and activity {{ edge[1] }} have a similarity of {{ edge[2]['weight'] }}.
+{% endfor %}
+I want to have a lot of variety from day to day. What is the best order in which to do the activities to minimize the total similarity between activities on adjacent days, including between the last activity and activity 1 (when starting the next round)? Please generate a comma-separated list of the activities in the order I should complete them, where the activities are represented by their respective numbers.

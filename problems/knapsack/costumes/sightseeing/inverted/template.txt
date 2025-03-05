@@ -1,0 +1,7 @@
+I am going to be visiting Paris tomorrow with a friend. I need to go through some emails at the start of the trip while my friend gets a head start on the sightseeing. I want to tell him which attractions he can visit before I join him so that I miss out as little as possible. I have given each attraction on our list a point value and determined how many minutes one would need to spend on it.
+
+Here are the attractions:
+{% for i in range(inst.num_items) -%}
+Attraction {{ i + 1 }} has a score of {{ inst.profits[i] }} points and would require {{ inst.weights[i] * 10 }} minutes.
+{% endfor %}
+Which attractions should I tell my friend to visit to make the total score of the attractions he sees without me as low as possible while ensuring that the total time required to visit them is at least {{ inst.complement_capacity * 10 }} minutes? Generate a comma-separated list of the attractions I should suggest to my friend, where each attraction is represented by its number.

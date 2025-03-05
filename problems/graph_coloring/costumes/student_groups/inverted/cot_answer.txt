@@ -1,0 +1,20 @@
+We will assign the students in order of least friends.
+We can start by assigning student 1 to group 1.
+Current solution: 1,?,?,?,?,?,?,?,?
+Student 2 is not friends with student 1 (group 1), so we will assign them to group 2.
+Current solution: 1,2,?,?,?,?,?,?,?
+Student 4 is also not friends with student 1 (group 1), but they are friends with student 2 (group 2), so we will assign them to group 2.
+Current solution: 1,2,?,2,?,?,?,?,?
+Student 6 is friends with neither student 1 (group 1) nor student 2 (group 2), so we will assign them to group 3.
+Current solution: 1,2,?,2,?,3,?,?,?
+Student 3 is not friends with student 1 (group 1), student 4 (group 2), or student 6 (group 3), so we will assign them to group 4.
+Current solution: 1,2,4,2,?,3,?,?,?
+Student 5 is friends with neither student 1 (group 1) nor student 4 (group 2), but they are friends with student 6 (group 3), so we will assign them to group 3.
+Current solution: 1,2,4,2,3,3,?,?,?
+Student 7 is not friends with student 1 (group 1), student 2 (group 2), student 5 (group 3), or student 3 (group 4), so we will assign them to group 5.
+Current solution: 1,2,4,2,3,3,5,?,?
+Student 9 is friends with student 1 (group 1), so we will assign them to group 1.
+Current solution: 1,2,4,2,3,3,5,?,1
+Student 8 is friends with student 1 (group 1) and student 9 (group 1), so we will assign them to group 1.
+We thus have the following group assignment:
+1,2,4,2,3,3,5,1,1

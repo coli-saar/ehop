@@ -1,0 +1,9 @@
+I have a list of numbers, and I'd like to split the list into two subsets such that the sum of the numbers in each subset is the same.
+The list of numbers is as follows:
+{{ inst.numbers }}
+
+Please generate a comma-separated list of the numbers which should be in the first subset. Each value in the list should be a number from my list, and a number can appear at most as many times in your list as it does in mine.
+{#
+Should I rewrite this to make it truly a decision problem?
+Should I add an example output somehow? If so, how?
+#}

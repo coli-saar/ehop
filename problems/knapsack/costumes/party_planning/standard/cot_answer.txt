@@ -1,0 +1,41 @@
+We will consider the decorations in order of most value.
+Decoration 2 is the most valuable and we can afford it, so we add it to the list.
+Remaining Funds: $1250    Current Solution: 2
+Decoration 11 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds: $1020    Current Solution: 2,11
+Decoration 17 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds: $1010    Current Solution: 2,11,17
+Decoration 1 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds:  $820    Current Solution: 2,11,17,1
+Decoration 5 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds:  $790    Current Solution: 2,11,17,1,5
+Decoration 7 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds:  $700    Current Solution: 2,11,17,1,5,7
+Decoration 13 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds:  $670    Current Solution: 2,11,17,1,5,7,13
+Decoration 19 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds:  $550    Current Solution: 2,11,17,1,5,7,13,19
+Decoration 22 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds:  $500    Current Solution: 2,11,17,1,5,7,13,19,22
+Decoration 3 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds:  $310    Current Solution: 2,11,17,1,5,7,13,19,22,3
+Decoration 15 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds:  $160    Current Solution: 2,11,17,1,5,7,13,19,22,3,15
+Decoration 24 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds:  $140    Current Solution: 2,11,17,1,5,7,13,19,22,3,15,24
+Decoration 9 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds:  $110    Current Solution: 2,11,17,1,5,7,13,19,22,3,15,24,9
+Decoration 18 is the next most valuable and we can afford it, so we add it to the list.
+Remaining Funds:    $0    Current Solution: 2,11,17,1,5,7,13,19,22,3,15,24,9,18
+Decoration 6 is the next most valuable, but we can't afford it, so we skip it.
+Decoration 16 is the next most valuable, but we can't afford it, so we skip it.
+Decoration 4 is the next most valuable, but we can't afford it, so we skip it.
+Decoration 8 is the next most valuable, but we can't afford it, so we skip it.
+Decoration 12 is the next most valuable, but we can't afford it, so we skip it.
+Decoration 21 is the next most valuable, but we can't afford it, so we skip it.
+Decoration 10 is the next most valuable, but we can't afford it, so we skip it.
+Decoration 14 is the next most valuable, but we can't afford it, so we skip it.
+Decoration 20 is the next most valuable, but we can't afford it, so we skip it.
+Decoration 23 is the next most valuable, but we can't afford it, so we skip it.
+We thus have the following solution:
+2,11,17,1,5,7,13,19,22,3,15,24,9,18

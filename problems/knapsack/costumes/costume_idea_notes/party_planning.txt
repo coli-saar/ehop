@@ -1,0 +1,4 @@
+items are things to buy for a party
+weights are the cost of each item
+values are the enjoyment added (as a numeric score) by each item
+capacity is the (department-issued) budget for the party

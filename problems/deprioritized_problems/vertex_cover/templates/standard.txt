@@ -1,0 +1,7 @@
+I have a network of {{ inst.graph.number_of_nodes() }} nodes numbered 1 to {{ inst.graph.number_of_nodes() }} with various nodes being connected to other nodes. I want to select a set of nodes such that for any pair of nodes that is connected, at least one of the nodes in the pair is in the set.
+
+The connections are as follows:
+{% for edge in inst.graph.edges -%}
+Node {{ edge[0] }} is connected to node {{ edge[1] }}.
+{% endfor %}
+How can I select the fewest nodes while ensuring all connections involve at least one selected node? Please generate a comma-separated list of nodes I should select, where the nodes are represented by their respective numbers.

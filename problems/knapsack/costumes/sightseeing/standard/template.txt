@@ -1,0 +1,7 @@
+I am going to be visiting Paris tomorrow, and I want to make the most of my time there. I have a list of attractions I want to visit, but I don't have enough time to visit all of them. I have given each attraction a point value and determined how many minutes I would need to spend on it.
+
+Here are the attractions:
+{% for i in range(inst.num_items) -%}
+Attraction {{ i + 1 }} has a score of {{ inst.profits[i] }} points and would require {{ inst.weights[i] * 10 }} minutes.
+{% endfor %}
+Which attractions should I visit to make the total point value as high as possible while not having the total time required go over my sightseeing limit of {{ inst.capacity * 10 }} minutes? Generate a comma-separated list of the attractions I should visit, where each attraction is represented by its number.

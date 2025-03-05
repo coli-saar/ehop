@@ -1,0 +1,19 @@
+We start with task 1 first, and the remaining order is undecided.
+Current Task Order: 1    Remaining Tasks: 2,3,4,5,6,7,8,9
+Of the remaining tasks, task 5 takes the most time to transition from task 1 (78 minutes), so we add it to the order.
+Current Task Order: 1,5    Remaining Tasks: 2,3,4,6,7,8,9
+Of the remaining tasks, task 8 takes the most time to transition from task 5 (78 minutes), so we add it to the order.
+Current Task Order: 1,5,8    Remaining Tasks: 2,3,4,6,7,9
+Of the remaining tasks, task 7 takes the most time to transition from task 8 (81 minutes), so we add it to the order.
+Current Task Order: 1,5,8,7    Remaining Tasks: 2,3,4,6,9
+Of the remaining tasks, task 2 takes the most time to transition from task 7 (73 minutes), so we add it to the order.
+Current Task Order: 1,5,8,7,2    Remaining Tasks: 3,4,6,9
+Of the remaining tasks, task 4 takes the most time to transition from task 2 (68 minutes), so we add it to the order.
+Current Task Order: 1,5,8,7,2,4    Remaining Tasks: 3,6,9
+Of the remaining tasks, task 6 takes the most time to transition from task 4 (71 minutes), so we add it to the order.
+Current Task Order: 1,5,8,7,2,4,6    Remaining Tasks: 3,9
+Of the remaining tasks, task 3 takes the most time to transition from task 6 (66 minutes), so we add it to the order.
+Current Task Order: 1,5,8,7,2,4,6,3    Remaining Tasks: 9
+Of the remaining tasks, task 9 takes the most time to transition from task 3 (49 minutes), so we add it to the order.
+We thus have the following task order:
+1,5,8,7,2,4,6,3,9

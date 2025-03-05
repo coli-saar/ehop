@@ -1,0 +1,7 @@
+My birthday is coming up, and I want to celebrate with my {{ inst.graph.number_of_nodes() }} friends. Unfortunately, some of my friends used to be in romantic relationships with each other, and they don't get along anymore. I will therefore be having multiple birthday parties. I want to invite each person to one party, and I want to invite exes to different parties so that no two people who used to date one another are at the same party. I have a list of who used to date whom, and I want to host as few parties as possible while avoiding the awkardness of having a pair of exes at the same party.
+
+The past relationships are as follows:
+{% for edge in inst.graph.edges -%}
+Friend {{ edge[0] }} and friend {{ edge[1] }} used to be in a relationship.
+{% endfor %}
+Which party should each friend be invited to? Generate a comma-separated list with each friend's party, where the parties are represented by integers ranging from 1 to the total number of parties. The parties should be in the order of the friends' numbers, so the first party in the list will correspond to friend 1, the second party will correspond to friend 2, and so on.

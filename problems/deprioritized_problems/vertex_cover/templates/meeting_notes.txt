@@ -1,0 +1,7 @@
+I am in charge of a department with {{ inst.graph.number_of_nodes() }} employees, with various employees meeting one-on-one with other employees throughout the week. I want to select a set of employees to give me summaries of what was discussed in all of these meetings.
+
+The meetings that occur are as follows:
+{% for edge in inst.graph.edges -%}
+Employee {{ edge[0] }} meets with employee {{ edge[1] }}.
+{% endfor %}
+How can I select the fewest employees while ensuring that there is no one-on-one meeting that won't be reported to me? Please generate a comma-separated list of the employees I should select, where the employees are represented by their respective numbers.

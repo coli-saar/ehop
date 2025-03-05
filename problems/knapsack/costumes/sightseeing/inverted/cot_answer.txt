@@ -1,0 +1,42 @@
+We start with all attractions in the set, with the goal of removing as much value as possible without going under the required time.
+We will consider the attractions in order of most value.
+Attraction 2 is the most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 2380 minutes    Current Solution: 1,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24
+Attraction 11 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 2150 minutes    Current Solution: 1,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24
+Attraction 17 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 2140 minutes    Current Solution: 1,3,4,5,6,7,8,9,10,12,13,14,15,16,18,19,20,21,22,23,24
+Attraction 1 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 1950 minutes    Current Solution: 3,4,5,6,7,8,9,10,12,13,14,15,16,18,19,20,21,22,23,24
+Attraction 5 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 1920 minutes    Current Solution: 3,4,6,7,8,9,10,12,13,14,15,16,18,19,20,21,22,23,24
+Attraction 7 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 1830 minutes    Current Solution: 3,4,6,8,9,10,12,13,14,15,16,18,19,20,21,22,23,24
+Attraction 13 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 1800 minutes    Current Solution: 3,4,6,8,9,10,12,14,15,16,18,19,20,21,22,23,24
+Attraction 19 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 1680 minutes    Current Solution: 3,4,6,8,9,10,12,14,15,16,18,20,21,22,23,24
+Attraction 22 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 1630 minutes    Current Solution: 3,4,6,8,9,10,12,14,15,16,18,20,21,23,24
+Attraction 3 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 1440 minutes    Current Solution: 4,6,8,9,10,12,14,15,16,18,20,21,23,24
+Attraction 15 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 1290 minutes    Current Solution: 4,6,8,9,10,12,14,16,18,20,21,23,24
+Attraction 24 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 1270 minutes    Current Solution: 4,6,8,9,10,12,14,16,18,20,21,23
+Attraction 9 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 1240 minutes    Current Solution: 4,6,8,10,12,14,16,18,20,21,23
+Attraction 18 is the next most valuable and can be removed, so we remove it from the suggested schedule.
+Total Time: 1130 minutes    Current Solution: 4,6,8,10,12,14,16,20,21,23
+Attraction 6 is the next most valuable, but it can't be removed, so we leave it.
+Attraction 16 is the next most valuable, but it can't be removed, so we leave it.
+Attraction 4 is the next most valuable, but it can't be removed, so we leave it.
+Attraction 8 is the next most valuable, but it can't be removed, so we leave it.
+Attraction 12 is the next most valuable, but it can't be removed, so we leave it.
+Attraction 21 is the next most valuable, but it can't be removed, so we leave it.
+Attraction 10 is the next most valuable, but it can't be removed, so we leave it.
+Attraction 14 is the next most valuable, but it can't be removed, so we leave it.
+Attraction 20 is the next most valuable, but it can't be removed, so we leave it.
+Attraction 23 is the next most valuable, but it can't be removed, so we leave it.
+We thus have the following solution:
+4,6,8,10,12,14,16,20,21,23

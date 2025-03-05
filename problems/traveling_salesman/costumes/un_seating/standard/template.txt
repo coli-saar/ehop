@@ -1,0 +1,6 @@
+I am responsible for the seating assignments at an upcoming UN meeting. There will be representatives from {{ inst.graph.number_of_nodes() }} nations sitting at a round table. The representative from nation 1 will be leading the discussion, so they will be sitting in the designated "Director Seat," but nothing else is decided yet. There is some amount of political tension between each pair of nations, and I've been given a list of tension scores for each pair of representatives, with higher scores indicating higher tension. Here are the tension levels between each pair of representatives:
+
+{% for edge in inst.graph.edges.data() -%}
+Representative {{ edge[0] }} and representative {{ edge[1] }} have tension score {{ edge[2]['weight'] }}.
+{% endfor %}
+I want to minimize the total tension between adjacent pairs of representatives to prevent the discussion from getting heated. What should the seating order be, starting at the Director Seat and continuing clockwise? Note that the last person in the ordering will also be sitting next to the Director Seat. Please generate a comma-separated list of the representatives in the order they should be seated, where the representatives are represented by their respective numbers.

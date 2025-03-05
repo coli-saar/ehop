@@ -1,0 +1,3 @@
+nodes are components of a car
+edge weights are time to transition between components
+tour is order to inspect components (including double-checking the first component at the end)

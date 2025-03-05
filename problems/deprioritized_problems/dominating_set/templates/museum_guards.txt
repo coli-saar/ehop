@@ -1,0 +1,8 @@
+I have been tasked with determining how many guards are needed to protect a museum. The museum has {{ inst.graph.number_of_nodes() }} rooms, with various rooms being connected to other rooms. I need to assign guards to rooms such that all rooms without guards are connected to at least one room with a guard.
+
+The room adjacencies are as follows:
+{% for edge in inst.graph.edges -%}
+Room {{ edge[0] }} is next to room {{ edge[1] }}.
+{% endfor %}
+How can I use the fewest guards while ensuring all other rooms are connected to at least one selected rooom? Please generate a comma-separated list of rooms which should have a guard in them, where the rooms are represented by their respective numbers.
+An example of a correctly formatted output for a museum with three rooms could be "1,2" (without the quotes).

@@ -1,0 +1,20 @@
+We will assign the friends in order of least exes.
+We can start by assigning friend 1 to party 1.
+Current solution: 1,?,?,?,?,?,?,?,?
+Friend 2 was not in a relationship with friend 1 (party 1), so we will assign them to party 2.
+Current solution: 1,2,?,?,?,?,?,?,?
+Friend 4 was also not in a relationship with friend 1 (party 1), but they were in a relationship with friend 2 (party 2), so we will assign them to party 2.
+Current solution: 1,2,?,2,?,?,?,?,?
+Friend 6 was in a relationship with neither friend 1 (party 1) nor friend 2 (party 2), so we will assign them to party 3.
+Current solution: 1,2,?,2,?,3,?,?,?
+Friend 3 was not in a relationship with friend 1 (party 1), friend 4 (party 2), or friend 6 (party 3), so we will assign them to party 4.
+Current solution: 1,2,4,2,?,3,?,?,?
+Friend 5 was in a relationship with neither friend 1 (party 1) nor friend 4 (party 2), but they were in a relationship with friend 6 (party 3), so we will assign them to party 3.
+Current solution: 1,2,4,2,3,3,?,?,?
+Friend 7 was not in a relationship with friend 1 (party 1), friend 2 (party 2), friend 5 (party 3), or friend 3 (party 4), so we will assign them to party 5.
+Current solution: 1,2,4,2,3,3,5,?,?
+Friend 9 was in a relationship with friend 1 (party 1), so we will assign them to party 1.
+Current solution: 1,2,4,2,3,3,5,?,1
+Friend 8 was in a relationship with friend 1 (party 1) and friend 9 (party 1), so we will assign them to party 1.
+We thus have the following party assignment:
+1,2,4,2,3,3,5,1,1

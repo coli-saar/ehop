@@ -1,0 +1,41 @@
+We will consider the items in order of most value.
+Item 2 is the most valuable and can fit, so we add it to the bag.
+Remaining Capacity: 125 kg    Current Solution: 2
+Item 11 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity: 102 kg    Current Solution: 2,11
+Item 17 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity: 101 kg    Current Solution: 2,11,17
+Item 1 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity:  82 kg    Current Solution: 2,11,17,1
+Item 5 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity:  79 kg    Current Solution: 2,11,17,1,5
+Item 7 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity:  70 kg    Current Solution: 2,11,17,1,5,7
+Item 13 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity:  67 kg    Current Solution: 2,11,17,1,5,7,13
+Item 19 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity:  55 kg    Current Solution: 2,11,17,1,5,7,13,19
+Item 22 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity:  50 kg    Current Solution: 2,11,17,1,5,7,13,19,22
+Item 3 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity:  31 kg    Current Solution: 2,11,17,1,5,7,13,19,22,3
+Item 15 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity:  16 kg    Current Solution: 2,11,17,1,5,7,13,19,22,3,15
+Item 24 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity:  14 kg    Current Solution: 2,11,17,1,5,7,13,19,22,3,15,24
+Item 9 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity:  11 kg    Current Solution: 2,11,17,1,5,7,13,19,22,3,15,24,9
+Item 18 is the next most valuable and can fit, so we add it to the bag.
+Remaining Capacity:   0 kg    Current Solution: 2,11,17,1,5,7,13,19,22,3,15,24,9,18
+Item 6 is the next most valuable, but it can't fit, so we skip it.
+Item 16 is the next most valuable, but it can't fit, so we skip it.
+Item 4 is the next most valuable, but it can't fit, so we skip it.
+Item 8 is the next most valuable, but it can't fit, so we skip it.
+Item 12 is the next most valuable, but it can't fit, so we skip it.
+Item 21 is the next most valuable, but it can't fit, so we skip it.
+Item 10 is the next most valuable, but it can't fit, so we skip it.
+Item 14 is the next most valuable, but it can't fit, so we skip it.
+Item 20 is the next most valuable, but it can't fit, so we skip it.
+Item 23 is the next most valuable, but it can't fit, so we skip it.
+We thus have the following solution:
+2,11,17,1,5,7,13,19,22,3,15,24,9,18

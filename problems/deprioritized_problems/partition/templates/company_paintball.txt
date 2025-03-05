@@ -1,0 +1,6 @@
+I am organizing a paintball event for my company. I want to divide the company's employees into two teams such that the number of employees on each team is equal. However, I'm not allowed to put employees from the same department on different teams, and all departments are participating.
+The department sizes are as follows:
+{% for i, num in enumerate(inst.numbers) -%}
+Department {{ i }} has {{ num }} employees.
+{% endfor %}
+Please generate a comma-separated list of the departments whose employees should be on the first team. Each value in the list should be the number of a department.

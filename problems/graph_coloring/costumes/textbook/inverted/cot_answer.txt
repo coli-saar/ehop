@@ -1,0 +1,20 @@
+We will color the nodes in order of least connections.
+We can start by coloring node 1 with color 1.
+Current solution: 1,?,?,?,?,?,?,?,?
+Node 2 is not connected to node 1 (color 1), so we will color it with color 2.
+Current solution: 1,2,?,?,?,?,?,?,?
+Node 4 is also not connected to node 1 (color 1), but it is connected to node 2 (color 2), so we will color it with color 2.
+Current solution: 1,2,?,2,?,?,?,?,?
+Node 6 is connected to neither node 1 (color 1) nor node 2 (color 2), so we will color it with color 3.
+Current solution: 1,2,?,2,?,3,?,?,?
+Node 3 is not connected to node 1 (color 1), node 4 (color 2), or node 6 (color 3), so we will color it with color 4.
+Current solution: 1,2,4,2,?,3,?,?,?
+Node 5 is connected to neither node 1 (color 1) nor node 4 (color 2), but it is connected to node 6 (color 3), so we will color it with color 3.
+Current solution: 1,2,4,2,3,3,?,?,?
+Node 7 is not connected to node 1 (color 1), node 2 (color 2), node 5 (color 3), or node 3 (color 4), so we will color it with color 5.
+Current solution: 1,2,4,2,3,3,5,?,?
+Node 9 is connected to node 1 (color 1), so we will color it with color 1.
+Current solution: 1,2,4,2,3,3,5,?,1
+Node 8 is connected to both node 1 (color 1) and node 9 (color 1), so we will color it with color 1.
+We thus have the following coloring:
+1,2,4,2,3,3,5,1,1

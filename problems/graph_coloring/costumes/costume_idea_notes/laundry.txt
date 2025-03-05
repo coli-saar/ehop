@@ -1,0 +1,3 @@
+nodes are articles of clothing
+edges represent articles of clothing that can't be washed together
+colors are washing machines

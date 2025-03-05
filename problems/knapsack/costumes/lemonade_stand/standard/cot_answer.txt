@@ -1,0 +1,41 @@
+We will consider the offers in order of most value.
+Customer 2's offer is the most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade: 125 gallons    Current Solution: 2
+Customer 11's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade: 102 gallons    Current Solution: 2,11
+Customer 17's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade: 101 gallons    Current Solution: 2,11,17
+Customer 1's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade:  82 gallons    Current Solution: 2,11,17,1
+Customer 5's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade:  79 gallons    Current Solution: 2,11,17,1,5
+Customer 7's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade:  70 gallons    Current Solution: 2,11,17,1,5,7
+Customer 13's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade:  67 gallons    Current Solution: 2,11,17,1,5,7,13
+Customer 19's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade:  55 gallons    Current Solution: 2,11,17,1,5,7,13,19
+Customer 22's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade:  50 gallons    Current Solution: 2,11,17,1,5,7,13,19,22
+Customer 3's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade:  31 gallons    Current Solution: 2,11,17,1,5,7,13,19,22,3
+Customer 15's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade:  16 gallons    Current Solution: 2,11,17,1,5,7,13,19,22,3,15
+Customer 24's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade:  14 gallons    Current Solution: 2,11,17,1,5,7,13,19,22,3,15,24
+Customer 9's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade:  11 gallons    Current Solution: 2,11,17,1,5,7,13,19,22,3,15,24,9
+Customer 18's offer is the next most valuable and we have enough lemonade, so we take up the offer.
+Remaining Lemonade:   0 gallons    Current Solution: 2,11,17,1,5,7,13,19,22,3,15,24,9,18
+Customer 6's offer is the next most valuable, but we don't have enough lemonade, so we skip it.
+Customer 16's offer is the next most valuable, but we don't have enough lemonade, so we skip it.
+Customer 4's offer is the next most valuable, but we don't have enough lemonade, so we skip it.
+Customer 8's offer is the next most valuable, but we don't have enough lemonade, so we skip it.
+Customer 12's offer is the next most valuable, but we don't have enough lemonade, so we skip it.
+Customer 21's offer is the next most valuable, but we don't have enough lemonade, so we skip it.
+Customer 10's offer is the next most valuable, but we don't have enough lemonade, so we skip it.
+Customer 14's offer is the next most valuable, but we don't have enough lemonade, so we skip it.
+Customer 20's offer is the next most valuable, but we don't have enough lemonade, so we skip it.
+Customer 23's offer is the next most valuable, but we don't have enough lemonade, so we skip it.
+We thus have the following solution:
+2,11,17,1,5,7,13,19,22,3,15,24,9,18

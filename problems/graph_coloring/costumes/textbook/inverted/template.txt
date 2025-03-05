@@ -1,0 +1,7 @@
+I have a network of {{ inst.graph.number_of_nodes() }} nodes, numbered 1 to {{ inst.graph.number_of_nodes() }}, with various nodes being connected to one another. I want to color the nodes such that no two unconnected nodes have the same color.
+
+The connections are as follows:
+{% for edge in inst.complement_graph.edges -%}
+Node {{ edge[0] }} and node {{ edge[1] }} are connected.
+{% endfor %}
+How can I color the nodes using the fewest colors possible? Generate a comma-separated list of the colors for each node, where the colors are represented by integers ranging from 1 to the number of colors used. The colors should be in the order of the vertices, so the first color will correspond to node 1, the second color will correspond to node 2, and so on.

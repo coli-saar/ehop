@@ -1,0 +1,7 @@
+I am planning a party, and I need to buy some decorations. Each decoration has a cost and a point value I've assigned in terms of its worth as a decoration.
+
+Here are the decorations I can buy:
+{% for i in range(inst.num_items) -%}
+Decoration {{ i + 1 }} has a cost of ${{ inst.weights[i] * 10 }} and a point value of {{ inst.profits[i] }}.
+{% endfor %}
+I can buy at most one of each decoration. Which decorations should I purchase to make the total point value as high as possible without going over my budget of ${{ inst.capacity * 10 }}? Generate a comma-separated list of the decorations I should buy, where each decoration is represented by its number.

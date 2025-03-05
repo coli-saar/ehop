@@ -1,0 +1,17 @@
+python-sat
+ortools
+Jinja2
+openai
+superopenai
+jsonnet-binary
+networkx
+mknapsack
+funcy
+pre-commit
+gurobipy
+seaborn
+pandas
+numpy
+func_timeout
+vllm
+huggingface_hub

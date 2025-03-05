@@ -1,0 +1,4 @@
+items are requests for art commissions
+values are the payments offered for each commission
+weights are the time required to complete each commission
+capacity is the time available to complete commissions

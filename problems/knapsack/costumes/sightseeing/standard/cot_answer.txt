@@ -1,0 +1,41 @@
+We will consider the attractions in order of most value.
+Attraction 2 is the most valuable and can fit, so we add it to the schedule.
+Remaining Time: 1250 minutes    Current Solution: 2
+Attraction 11 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time: 1020 minutes    Current Solution: 2,11
+Attraction 17 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time: 1010 minutes    Current Solution: 2,11,17
+Attraction 1 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time:  820 minutes    Current Solution: 2,11,17,1
+Attraction 5 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time:  790 minutes    Current Solution: 2,11,17,1,5
+Attraction 7 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time:  700 minutes    Current Solution: 2,11,17,1,5,7
+Attraction 13 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time:  670 minutes    Current Solution: 2,11,17,1,5,7,13
+Attraction 19 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time:  550 minutes    Current Solution: 2,11,17,1,5,7,13,19
+Attraction 22 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time:  500 minutes    Current Solution: 2,11,17,1,5,7,13,19,22
+Attraction 3 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time:  310 minutes    Current Solution: 2,11,17,1,5,7,13,19,22,3
+Attraction 15 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time:  160 minutes    Current Solution: 2,11,17,1,5,7,13,19,22,3,15
+Attraction 24 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time:  140 minutes    Current Solution: 2,11,17,1,5,7,13,19,22,3,15,24
+Attraction 9 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time:  110 minutes    Current Solution: 2,11,17,1,5,7,13,19,22,3,15,24,9
+Attraction 18 is the next most valuable and can fit, so we add it to the schedule.
+Remaining Time:    0 minutes    Current Solution: 2,11,17,1,5,7,13,19,22,3,15,24,9,18
+Attraction 6 is the next most valuable, but it can't fit, so we skip it.
+Attraction 16 is the next most valuable, but it can't fit, so we skip it.
+Attraction 4 is the next most valuable, but it can't fit, so we skip it.
+Attraction 8 is the next most valuable, but it can't fit, so we skip it.
+Attraction 12 is the next most valuable, but it can't fit, so we skip it.
+Attraction 21 is the next most valuable, but it can't fit, so we skip it.
+Attraction 10 is the next most valuable, but it can't fit, so we skip it.
+Attraction 14 is the next most valuable, but it can't fit, so we skip it.
+Attraction 20 is the next most valuable, but it can't fit, so we skip it.
+Attraction 23 is the next most valuable, but it can't fit, so we skip it.
+We thus have the following solution:
+2,11,17,1,5,7,13,19,22,3,15,24,9,18

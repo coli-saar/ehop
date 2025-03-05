@@ -1,0 +1,19 @@
+We start at city 1, with the remaining order undecided.
+Current Route: 1    Remaining Cities: 2,3,4,5,6,7,8,9
+Of the remaining cities, city 8 is the farthest from city 1 (59 miles away), so we add it to the route.
+Current Route: 1,8    Remaining Cities: 2,3,4,5,6,7,9
+Of the remaining cities, city 3 is the farthest from city 8 (70 miles away), so we add it to the route.
+Current Route: 1,8,3    Remaining Cities: 2,4,5,6,7,9
+Of the remaining cities, city 7 is the farthest from city 3 (61 miles away), so we add it to the route.
+Current Route: 1,8,3,7    Remaining Cities: 2,4,5,6,9
+Of the remaining cities, city 5 is the farthest from city 7 (48 miles away), so we add it to the route.
+Current Route: 1,8,3,7,5    Remaining Cities: 2,4,6,9
+Of the remaining cities, city 2 is the farthest from city 5 (47 miles away), so we add it to the route.
+Current Route: 1,8,3,7,5,2    Remaining Cities: 4,6,9
+Of the remaining cities, city 9 is the farthest from city 2 (80 miles away), so we add it to the route.
+Current Route: 1,8,3,7,5,2,9    Remaining Cities: 4,6
+Of the remaining cities, city 4 is the farthest from city 9 (82 mile away), so we add it to the route.
+Current Route: 1,8,3,7,5,2,9,4    Remaining Cities: 6
+Of the remaining cities, city 6 is the farthest from city 4 (12 miles away), so we add it to the route.
+We thus have the following route:
+1,8,3,7,5,2,9,4,6

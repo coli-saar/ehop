@@ -1,0 +1,20 @@
+We will assign the students in order of most friends.
+We can start by assigning student 1 to group 1.
+Current solution: 1,?,?,?,?,?,?,?,?
+Student 2 is friends with student 1 (group 1), so we will assign them to group 2.
+Current solution: 1,2,?,?,?,?,?,?,?
+Student 4 is also friends with student 1 (group 1) but not student 2 (group 2), so we will assign them to group 2.
+Current solution: 1,2,?,2,?,?,?,?,?
+Student 6 is friends with student 1 (group 1) and student 2 (group 2), so we will assign them to group 3.
+Current solution: 1,2,?,2,?,3,?,?,?
+Student 3 is friends with student 1 (group 1), student 4 (group 2), and student 6 (group 3), so we will assign them to group 4.
+Current solution: 1,2,4,2,?,3,?,?,?
+Student 5 is friends with student 1 (group 1) and student 4 (group 2) but not student 6 (group 3), so we will assign them to group 3.
+Current solution: 1,2,4,2,3,3,?,?,?
+Student 7 is friends with student 1 (group 1), student 2 (group 2), student 5 (group 3), and student 3 (group 4), so we will assign them to group 5.
+Current solution: 1,2,4,2,3,3,5,?,?
+Student 9 is not friends with student 1 (group 1), so we will assign them to group 1.
+Current solution: 1,2,4,2,3,3,5,?,1
+Student 8 is not friends with student 1 (group 1) or student 9 (group 1), so we will assign them to group 1.
+We thus have the following group assignment:
+1,2,4,2,3,3,5,1,1

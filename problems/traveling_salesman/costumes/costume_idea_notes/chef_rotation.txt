@@ -1,0 +1,3 @@
+Reskin of daily schedule costume
+Nodes are dishes, edges are time to switch between dishes
+Order is the order in which new "intern" chefs are to prepare the dishes

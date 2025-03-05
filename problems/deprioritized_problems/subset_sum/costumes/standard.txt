@@ -1,0 +1,4 @@
+I have the following collection of numbers:
+{{ inst.numbers }}
+
+I would like to select a subset of these numbers such that the sum of the numbers in this subset is equal to {{ inst.target }}. Please generate a comma-separated list of the numbers which should be in this subset. Each value in the list should be a number from my list, and a number can appear at most as many times in your list as it does in mine.

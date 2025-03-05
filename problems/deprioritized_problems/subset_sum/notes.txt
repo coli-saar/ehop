@@ -1,0 +1,7 @@
+// == PARTITION <partition-description>
+
+// In #problem[partition], we have a multiset $S={s_1,dots,s_n}$ (with $s_i in NN$) and the goal is to partition $S$ into two subsets $S_1$ and $S_2$ such that the sum of the values in $S_1$ equals the sum of the values in $S_2$. This problem naturally fits into several non-technical contexts:
+
+// - _Company Paintball_: $S$ represents the number of employees in various departments of a company. The company wants to organize a paintball game with two teams such that the teams are the same size and no one has to play against someone in their own department.
+
+// - _Waitstaff Duo_: $S$ represents the number of customers at the tables in a restaurant that has two servers. The manager wants to assign the servers to tables so that they have an equal number of customers to attend to.

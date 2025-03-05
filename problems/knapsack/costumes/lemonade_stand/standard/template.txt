@@ -1,0 +1,7 @@
+I am running a lemonade stand where I don't set a single price but rather let the customers make custom offers. Each customer is offering a specific amount of money for a specific amount of lemonade. Each offer is rigid, so I can only fulfill it exactly as stated or not fulfill it at all.
+
+I have the following offers:
+{% for i in range(inst.num_items) -%}
+Customer {{ i + 1 }} is offering ${{ inst.profits[i] }} for {{ inst.weights[i] }} gallon{{ "s" if inst.weights[i] != 1 else "" }} of lemonade.
+{% endfor %}
+Which customers' offers should I take up to make my revenue as large as possible given that I can't sell more than {{ inst.capacity }} total gallons of lemonade? Generate a comma-separated list of the customers whose offers I should take up, where each customer is represented by their number.

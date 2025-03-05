@@ -1,0 +1,4 @@
+nodes are people attending a game night
+edges weights are how well people know each other
+tour is seating around a circular table
+want people to meet new people

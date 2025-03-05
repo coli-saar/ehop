@@ -1,0 +1,19 @@
+We start with activity 1 first, and the remaining order is undecided.
+Current Activity Order: 1    Remaining Activities: 2,3,4,5,6,7,8,9
+Of the remaining activities, activity 8 has the least similarity to activity 1 (24), so we add it to the order.
+Current Activity Order: 1,8    Remaining Activities: 2,3,4,5,6,7,9
+Of the remaining activities, activity 3 has the least similarity to activity 8 (13), so we add it to the order.
+Current Activity Order: 1,8,3    Remaining Activities: 2,4,5,6,7,9
+Of the remaining activities, activity 7 has the least similarity to activity 3 (22), so we add it to the order.
+Current Activity Order: 1,8,3,7    Remaining Activities: 2,4,5,6,9
+Of the remaining activities, activity 5 has the least similarity to activity 7 (35), so we add it to the order.
+Current Activity Order: 1,8,3,7,5    Remaining Activities: 2,4,6,9
+Of the remaining activities, activity 2 has the least similarity to activity 5 (36), so we add it to the order.
+Current Activity Order: 1,8,3,7,5,2    Remaining Activities: 4,6,9
+Of the remaining activities, activity 9 has the least similarity to activity 2 (3), so we add it to the order.
+Current Activity Order: 1,8,3,7,5,2,9    Remaining Activities: 4,6
+Of the remaining activities, activity 4 has the least similarity to activity 9 (1), so we add it to the order.
+Current Activity Order: 1,8,3,7,5,2,9,4    Remaining Activities: 6
+Of the remaining activities, activity 6 has the least similarity to activity 4 (71), so we add it to the order.
+We thus have the following activity order:
+1,8,3,7,5,2,9,4,6

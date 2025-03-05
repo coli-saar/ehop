@@ -1,0 +1,3 @@
+nodes are representatives from different countries
+edges weights are the amount of tension between two representatives
+tour is the order in which representatives will be seated at a (circular) conference table

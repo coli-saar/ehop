@@ -136,7 +136,7 @@ if __name__ == "__main__":
         GraphColoringILP(), GraphColoringLoader(), GraphColoringGreedy()
     )
     generator.generate_and_store(
-        [6, 7, 8, 9],
+        [12, 15],
         25,
         "random non-greedy",
         to_exclude=[demo_inst],

@@ -2,12 +2,13 @@ from datetime import datetime
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 from textwrap import dedent
-from typing import Any
+from typing import Any, Callable
 
 import gurobipy
 
 from base.bot_and_client import BaseBot
-from base.results import ILPException
+from base.problem_structures import BaseInstance, BaseSolution
+from base.results import ILPException, classify_result
 from utils.ilp import solve_ilp_file
 from utils.llm_output_utils import (
     execute_generated_code,
@@ -21,10 +22,16 @@ class AutoBot(BaseBot):
     A bot that automatically sends a list of messages in order, regardless of the messages it receives.
     """
 
-    def __init__(self, messages: list[str], **kwargs) -> None:
+    def __init__(
+        self, messages: list[str], conversational: bool = False, **kwargs
+    ) -> None:
         self.messages_sent = 0
         self.messages = messages
+        self.conversational = conversational
         self.kwargs = kwargs or {}
+
+    def is_conversational(self) -> bool:
+        return self.conversational
 
     def get_message(self, llm_response: str) -> tuple[str | None, dict[str, Any]]:
         try:
@@ -34,6 +41,124 @@ class AutoBot(BaseBot):
         else:
             self.messages_sent += 1
         return response, self.kwargs
+
+
+class OPROBot(BaseBot):
+    """
+    A bot inspired by the OPRO paper (https://doi.org/10.48550/arXiv.2309.03409).
+    """
+
+    def __init__(
+        self,
+        inst: BaseInstance,
+        variant: str,
+        trajectory: list[tuple[BaseSolution, int]],
+        solution_extraction: Callable[[str], BaseSolution],
+        bigger_is_better: bool,
+        base_prompt: str,
+        trajectory_prefix: str,
+        trajectory_suffix: str,
+        max_steps: int = 10,
+        prompts_per_step: int = 8,
+    ) -> None:
+        self.inst = inst
+        self.variant = variant
+        self.trajectory = trajectory
+        self.base_prompt = base_prompt
+        self.trajectory_prefix = trajectory_prefix
+        self.trajectory_suffix = trajectory_suffix
+        self.solution_extraction = solution_extraction
+
+        self.messages_sent = 0
+        self.max_steps = max_steps
+        self.prompts_per_step = prompts_per_step
+        self.done = False
+
+        self.curr_solution_batch: list[tuple[BaseSolution, int]] = []
+        self.best_solution: list[int] = []
+        self.best_score: int | None = None
+        self.bigger_is_better = bigger_is_better
+
+        self.trajectory.sort(key=lambda x: x[1], reverse=not self.bigger_is_better)
+
+    def is_conversational(self) -> bool:
+        return False
+
+    def get_message(self, llm_response: str) -> tuple[str | None, dict[str, Any]]:
+        solution = self.solution_extraction(llm_response)
+        # print()
+        # print(
+        #     self.messages_sent,
+        #     llm_response,
+        #     [str(pair[0]) for pair in self.trajectory]
+        #     + [str(pair[0]) for pair in self.curr_solution_batch],
+        #     solution,
+        #     solution
+        #     in (
+        #         [pair[0] for pair in self.trajectory]
+        #         + [pair[0] for pair in self.curr_solution_batch]
+        #     ),
+        # )
+
+        # print(
+        #     [solution == pair[0] for pair in self.trajectory + self.curr_solution_batch]
+        # )
+
+        if (
+            solution
+            not in (
+                [pair[0] for pair in self.trajectory]
+                + [pair[0] for pair in self.curr_solution_batch]
+            )
+            and solution.get_list() != []
+        ):
+            # print("Classifying solution")
+            result, summary, _ = classify_result(
+                self.inst.evaluate(solution, self.variant)
+            )
+
+            if result in ["OPTIMAL", "SUBOPTIMAL"]:
+                assert (
+                    summary is not None
+                ), "Summary should not be None for OPTIMAL or SUBOPTIMAL results"
+
+                if self.best_score is None or (
+                    (self.bigger_is_better and summary > self.best_score)
+                    or (not self.bigger_is_better and summary < self.best_score)
+                ):
+                    self.best_score = summary
+                    self.best_solution = solution.get_list()
+
+                if result == "OPTIMAL":
+                    self.done = True
+                elif result == "SUBOPTIMAL":
+                    self.curr_solution_batch.append((solution, summary))
+
+        if self.done or self.messages_sent == self.max_steps * self.prompts_per_step:
+            return None, {}
+
+        # print([str(pair[0]) for pair in self.curr_solution_batch])
+
+        if self.messages_sent % self.prompts_per_step == 0:
+            # print("Merging batch")
+            self.trajectory.extend(self.curr_solution_batch)
+            self.curr_solution_batch = []
+            self.trajectory.sort(key=lambda x: x[1], reverse=not self.bigger_is_better)
+            # print(
+            #     "New Trajectory:",
+            #     [str(pair[0]) for pair in self.trajectory],
+            # )
+
+        if self.trajectory:
+            message = self.base_prompt + "\n\n" + self.trajectory_prefix + "\n\n"
+            for solution, score in self.trajectory:
+                message += f"Solution: {str(solution)[1:-1]}\nScore: {score}\n\n"
+            message += self.trajectory_suffix
+        else:
+            message = self.base_prompt
+
+        self.messages_sent += 1
+        return message, {"temperature": 1.0}
 
 
 class ILPBot(BaseBot):
@@ -69,6 +194,9 @@ class ILPBot(BaseBot):
         self.max_ilp_attempts = max_ilp_attempts
         self.raise_ilp_exception = raise_ilp_exception
 
+    def is_conversational(self) -> bool:
+        return True
+
     def get_message(self, llm_response: str) -> tuple[str | None, dict[str, Any]]:
         if self.done or self.messages_sent > self.max_ilp_attempts:
             message: tuple[str | None, dict[str, Any]] = None, {}
@@ -79,8 +207,6 @@ class ILPBot(BaseBot):
                 )
             }
         else:
-            if self.mode not in {"lp", "python"}:
-                raise ValueError("Invalid mode")
             message = (
                 self.handle_lp_response(llm_response)
                 if self.mode == "lp"

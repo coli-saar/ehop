@@ -13,7 +13,7 @@ from analysis.common_analysis_constants import (
     PROMPTING_STRATEGIES,
     VARIANTS,
 )
-from analysis.data_aggregation import master_df
+from utils.analysis.data_aggregation import master_df
 
 for dataset in DATASETS:
     print(f"Generating {dataset} dataset...", end="\r")

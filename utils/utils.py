@@ -7,8 +7,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 import _jsonnet  # type: ignore
-from funcy import omit
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 sys.path.insert(1, "../ehop")  # To be run from the top-level ehop directory
 
@@ -27,12 +26,25 @@ def register(id):
     return decorator
 
 
-def instantiate_registered(data: dict):
+class RegisteredClassConfig(BaseModel):
+    __pydantic_extra__: dict[str, Any] = Field(init=False)
+
+    id: str
+    model: str | None = None
+    strategy: str | None = None
+    thinking: bool | None = None
+
+    model_config = ConfigDict(extra="allow")
+
+
+def instantiate_registered(config: RegisteredClassConfig):
     """Instantiates a registered class based on its id."""
-    class_id = data.pop("id", None)
+    class_id = config.id
 
     if class_id is not None and class_id in _class_registry:
-        return _class_registry[class_id](**omit(data, ["id"]))
+        return _class_registry[class_id](
+            **config.model_dump(exclude={"id"}, exclude_defaults=True)
+        )
     else:
         raise LookupError(f"Class id {class_id} not registered")
 
@@ -46,7 +58,7 @@ class ConfigProblemInstance(BaseModel):
     solution_path: str
 
 
-def get_all_problem_instances(path: str) -> list[ConfigProblemInstance]:
+def get_all_problem_instances(data: str | list[str]) -> list[ConfigProblemInstance]:
     """Recursively extracts all problem instances from a directory."""
     problem_instances = []
 
@@ -66,7 +78,11 @@ def get_all_problem_instances(path: str) -> list[ConfigProblemInstance]:
                 if path.is_dir():
                     extract_instance(path)
 
-    extract_instance(Path(path))
+    if isinstance(data, str):
+        extract_instance(Path(data))
+    else:
+        for d in data:
+            extract_instance(Path(d))
 
     return problem_instances
 
@@ -78,12 +94,13 @@ class Config(BaseModel):
 
     id: str
     problem_type: str
-    solver: dict[str, str]
-    loader: dict[str, str]
+    solver: RegisteredClassConfig
+    loader: RegisteredClassConfig
     variants: list[str] = ["standard"]
     costumes: list[str] = ["textbook"]
     prompting_strategies: list[str] = ["zero_shot"]
-    data: list[ConfigProblemInstance] | str
+    data: str | list[str]
+    output_filename: str | None = None
 
     @staticmethod
     def load(config_filename) -> "Config":
@@ -109,12 +126,7 @@ class Config(BaseModel):
         Returns a generator that yields instances, their problem names,
         and formats (for LLM solvers, and only when specified in the config).
         """
-        if type(self.data) is str:
-            self.data = get_all_problem_instances(self.data)
-        if type(self.data) is not list:
-            raise ValueError(
-                f"Data should now be a list of ConfigProblemInstance objects (got {type(self.data)})"
-            )
+        instances = get_all_problem_instances(self.data)
 
         loader = self.get_loader()
 
@@ -128,7 +140,7 @@ class Config(BaseModel):
                 costume,
                 strategy,
             )
-            for inst in self.data
+            for inst in instances
             for variant in self.variants
             for costume in self.costumes
             for strategy in self.prompting_strategies
@@ -177,7 +189,6 @@ def csv_to_typst(csv: str, header_rows: int, row_label_counts: list[int]) -> str
             output += f"table.cell(colspan:{count}, [{previous}]),"
         elif previous is not None:
             output += f"[{previous}],"
-        previous, count = cell, 1
         output += "\n\t"
     output += "),"
 

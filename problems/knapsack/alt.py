@@ -1,6 +1,7 @@
 from random import randint, shuffle
 
 from base.problem_structures import BaseSolver
+from base.results import ValidResult
 from utils.utils import register
 
 from .model import KnapsackInstance, KnapsackSolution
@@ -77,3 +78,26 @@ class KnapsackRandom(BaseSolver[KnapsackSolution, KnapsackInstance]):
         return KnapsackSolution(
             selected_items=[i for i in range(inst.num_items) if randint(0, 1) == 1]
         )
+
+
+@register("knapsack-random-valid")
+class KnapsackRandomValid(BaseSolver[KnapsackSolution, KnapsackInstance]):
+    """
+    A random solver for generating a sequence of selected items
+    guaranteed to be a valid solution.
+    """
+
+    def solve(self, inst: KnapsackInstance) -> KnapsackSolution:
+        if self.variant == "standard":
+            sol = KnapsackSolution(list(range(inst.num_items)))
+            while not isinstance(inst.evaluate(sol, variant=self.variant), ValidResult):
+                sol.selected_items.pop(randint(0, len(sol.selected_items) - 1))
+        else:
+            unused_items = list(range(inst.num_items))
+            sol = KnapsackSolution([])
+            while not isinstance(inst.evaluate(sol, variant=self.variant), ValidResult):
+                sol.selected_items.append(
+                    unused_items.pop(randint(0, len(unused_items) - 1))
+                )
+        sol.selected_items.sort()
+        return sol

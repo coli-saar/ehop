@@ -2,16 +2,19 @@ import sys
 from abc import abstractmethod
 from pathlib import Path
 from textwrap import dedent
+from typing import Any
 
 from jinja2 import Environment, FileSystemLoader
 
-from bots import AutoBot, ILPBot
+from base.results import classify_result
+from bots import AutoBot, ILPBot, OPROBot
 
 sys.path.insert(1, "../ehop")  # To be run from the top-level ehop directory
 
 from base.bot_and_client import BaseBot, BaseLLMClient
-from base.problem_structures import BaseSolver, T_Instance, T_LLMSolution
+from base.problem_structures import BaseSolution, BaseSolver, T_Instance, T_LLMSolution
 from llm_clients import load_client
+from utils.llm_output_utils import extract_csloi
 
 
 class BaseLLMSolver(BaseSolver[T_LLMSolution, T_Instance]):
@@ -21,6 +24,7 @@ class BaseLLMSolver(BaseSolver[T_LLMSolution, T_Instance]):
 
     here: Path  # to be defined by subclasses
     default_demo: T_Instance  # to be defined by subclasses
+    random_solver: BaseSolver[Any, T_Instance]  # to be defined by subclasses
 
     def __init__(
         self,
@@ -29,18 +33,21 @@ class BaseLLMSolver(BaseSolver[T_LLMSolution, T_Instance]):
         variant: str = "standard",
         prompting_strategy: str = "zero_shot",
         demo_inst: T_Instance | None = None,
+        **kwargs,
     ) -> None:
         self.environment = Environment(loader=FileSystemLoader(self.here / "costumes"))
         if model is not None:
-            self.set_model(model)
+            self.set_client(model, **kwargs)
         self.costume = costume
         self.variant = variant
         self.set_template(costume, variant)
         self.set_prompting_strategy(prompting_strategy)
         self.set_demo_inst(demo_inst if demo_inst is not None else self.default_demo)
 
-    def set_model(self, model: BaseLLMClient | str) -> None:
-        self.model = model if isinstance(model, BaseLLMClient) else load_client(model)
+    def set_client(self, model: BaseLLMClient | str, **kwargs) -> None:
+        self.client = (
+            model if isinstance(model, BaseLLMClient) else load_client(model, **kwargs)
+        )
 
     def set_template(self, costume: str, variant: str) -> None:
         self.costume = costume
@@ -70,9 +77,18 @@ class BaseLLMSolver(BaseSolver[T_LLMSolution, T_Instance]):
         Generates a prompt for the given instance and prompting strategy.
         For prompting strategies that require multiple prompts, returns an object of a subclass of BaseBot.
         """
-        prompt = self.template.render(inst=inst)
+        prompt = ""
 
-        match prompting_strategy:
+        if prompting_strategy.startswith("hint"):
+            hint = self.here / f"costumes/hint.txt"
+            if hint.exists():
+                prompt += hint.read_text().strip() + " "
+            else:
+                raise ValueError(f"Hint file not found for {prompting_strategy}")
+
+        prompt += self.template.render(inst=inst)
+
+        match prompting_strategy.split("hint_")[-1]:
             case "zero_shot":
                 return (prompt + "\nPlease add no formatting and no explanations.",)
             case "zero_shot_cot":
@@ -89,7 +105,9 @@ class BaseLLMSolver(BaseSolver[T_LLMSolution, T_Instance]):
                     ],
                 )
             case "one_shot":
-                shot_question = self.generate_prompt(self.demo_inst, "zero_shot")
+                shot_question = self.generate_prompt(
+                    self.demo_inst, prompting_strategy.replace("one", "zero")
+                )
                 shot_answer = (
                     (
                         self.here
@@ -98,14 +116,18 @@ class BaseLLMSolver(BaseSolver[T_LLMSolution, T_Instance]):
                     .read_text()
                     .strip(),
                 )
-                real_question = self.generate_prompt(inst, "zero_shot")
+                real_question = self.generate_prompt(
+                    inst, prompting_strategy.replace("one", "zero")
+                )
                 if isinstance(shot_question, BaseBot) or isinstance(
                     real_question, BaseBot
                 ):
                     raise ValueError("Questions should be of type tuple[str, ...] here")
                 return shot_question + shot_answer + real_question
             case "one_shot_cot":
-                shot_question = self.generate_prompt(self.demo_inst, "zero_shot_cot")
+                shot_question = self.generate_prompt(
+                    self.demo_inst, prompting_strategy.replace("one", "zero")
+                )
                 shot_answer = (
                     (
                         self.here
@@ -228,25 +250,87 @@ class BaseLLMSolver(BaseSolver[T_LLMSolution, T_Instance]):
                     error_message,
                     final_error_message,
                 )
+            case "opro":
+                self.random_solver.set_variant(self.variant)
+                trajectory: list[tuple[BaseSolution, int]] = []
+                attempts = 0
+                while len(trajectory) < 5 and attempts < 500:
+                    solution = self.random_solver.solve(inst)  # type:ignore
+                    attempts += 1
+                    if (
+                        solution not in [pair[0] for pair in trajectory]
+                        and solution.get_list() != []
+                    ):
+                        result, summary, _ = classify_result(
+                            inst.evaluate(solution, self.variant)
+                        )
+                        if result != "SUBOPTIMAL" or summary is None:
+                            continue
+                        trajectory.append((solution, summary))
+
+                return OPROBot(
+                    inst,
+                    self.variant,
+                    trajectory,
+                    solution_extraction=lambda s: self.extract_solution(
+                        inst, ("",), "", None, extract_csloi(s)
+                    ),
+                    bigger_is_better=(
+                        self.here.stem == "knapsack" and self.variant == "standard"
+                    )
+                    or (
+                        self.here.stem == "traveling_salesman"
+                        and self.variant == "inverted"
+                    ),
+                    base_prompt=prompt,
+                    trajectory_prefix="Below are some solutions to the problem along with their scores. The solutions are sorted with respect to their score, and the best solution is at the bottom.",
+                    trajectory_suffix="Please provide a new solution to the problem that is different from all the previous solutions and achieves a better score.\nYou may explain your reasoning, but do not add any more explanations once you have produced the comma-separated list.",
+                )
             case _:
                 raise ValueError(
                     f'Prompting strategy "{self.prompting_strategy}" not recognized'
                 )
 
     def prompt_response(
-        self, inst: T_Instance
-    ) -> tuple[tuple[str, ...], str] | tuple[tuple[str, ...], tuple[str, ...]]:
-        if self.model is None:
+        self, prompt: tuple[str, ...] | BaseBot
+    ) -> tuple[tuple[str, ...], str | tuple[str, ...], str | tuple[str, ...] | None]:
+        if self.client is None:
             raise RuntimeError(
-                "LLMClient is not defined. To set it, use the set_model method or provide it when initializing the solver."
+                "Client is not defined. To set it, use the set_client method or provide it when initializing the solver."
             )
 
-        prompt = self.generate_prompt(inst, self.prompting_strategy)
+        self.client.set_history([])  # Reset history before solving a new instance
 
         if isinstance(prompt, tuple):
-            return prompt, self.model.prompt(prompt)
+            keep_history = False
+            if len(prompt) == 0:
+                raise ValueError("Prompt is empty")
+            elif len(prompt) > 1:
+                self.client.set_history(prompt[:-1])
+                keep_history = True
+            return prompt, *self.client.prompt(prompt[-1], keep_history=keep_history)
         else:
-            return self.model.bot_prompt(prompt)
+            return self.client.bot_prompt(prompt)
+
+    def solve(self, inst: T_Instance) -> T_LLMSolution:
+        prompt = self.generate_prompt(inst, self.prompting_strategy)
+
+        prompting, response, reasoning = self.prompt_response(prompt)
+
+        loi = (
+            prompt.best_solution
+            if isinstance(prompt, OPROBot)
+            else extract_csloi(response if isinstance(response, str) else response[-1])
+        )
+
+        return self.extract_solution(inst, prompting, response, reasoning, loi)
 
     @abstractmethod
-    def solve(self, inst: T_Instance) -> T_LLMSolution: ...
+    def extract_solution(
+        self,
+        inst: T_Instance,
+        prompting: tuple[str, ...],
+        response: str | tuple[str, ...],
+        reasoning: str | tuple[str, ...] | None,
+        loi: list[int],
+    ) -> T_LLMSolution: ...

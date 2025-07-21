@@ -4,12 +4,12 @@ from pathlib import Path
 sys.path.insert(1, "../ehop")  # To be run from the top-level ehop directory
 
 from base.llm_solver import BaseLLMSolver
+from problems.graph_coloring.alt import GraphColoringRandomValid
 from problems.graph_coloring.model import (
     GraphColoringInstance,
     GraphColoringLLMSolution,
     GraphColoringLoader,
 )
-from utils.llm_output_utils import extract_csloi
 from utils.utils import register
 
 
@@ -20,14 +20,16 @@ class GraphColoringLLM(BaseLLMSolver[GraphColoringLLMSolution, GraphColoringInst
         "data/problem_instances/graph_coloring/demo/problem.col",
         "data/problem_instances/graph_coloring/demo/solution.sol",
     )
+    random_solver = GraphColoringRandomValid()
 
-    def solve(self, inst: GraphColoringInstance) -> GraphColoringLLMSolution:
-        prompt, response = self.prompt_response(inst)
-
-        coloring = extract_csloi(
-            response if isinstance(response, str) else response[-1]
-        )
-
+    def extract_solution(
+        self,
+        inst: GraphColoringInstance,
+        prompting: tuple[str, ...],
+        response: str | tuple[str, ...],
+        reasoning: str | tuple[str, ...] | None,
+        loi: list[int],
+    ) -> GraphColoringLLMSolution:
         return GraphColoringLLMSolution(
-            prompt=prompt, response=response, coloring=coloring
+            prompting=prompting, response=response, reasoning=reasoning, coloring=loi
         )

@@ -41,14 +41,18 @@ COSTUME_LIST: list[str] = [
 VARIANTS: list[str] = ["standard", "inverted"]
 
 PROMPTING_STRATEGIES: list[str] = [
+    "zero_shot",
     "one_shot",
     "zero_shot_cot",
     "one_shot_cot",
     "ilp_lp",
     "ilp_python",
+    "opro",
 ]
 
 DATASETS: list[str] = ["random", "hard"]
+
+RESULT_TYPES = ["OPTIMAL", "SUBOPTIMAL", "ERRONEOUS", "INCOMPATIBLE", "ILPFAILURE"]
 
 GREEDY_STRAT_LIST: list[list[str]] = [
     ["largest_first", "random_sequential"],
@@ -56,8 +60,12 @@ GREEDY_STRAT_LIST: list[list[str]] = [
     ["results"],
 ]
 
-LLMS: list[str] = ["GPT", "Llama"]
-LLM_FULL_NAMES: list[str] = ["GPT-4o (2024-08-06)", "Llama 3.1 70B Instruct"]
+LLMS: list[str] = ["GPT", "Llama 3.1", "Llama 3.3"]
+LLM_FULL_NAMES: list[str] = [
+    "GPT-4o (2024-08-06)",
+    "Llama 3.1 70B Instruct",
+    "Llama 3.3 70B Instruct",
+]
 
 PROBLEM_SCALES: dict[str, dict[str, tuple[float, ...]]] = {
     "gcp": {"ticks": (4, 5, 6, 7, 8, 9), "limits": (3.875, 9.125)},

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 import sys
 from dataclasses import dataclass
@@ -14,6 +16,7 @@ from base.problem_structures import (
     BaseLLMSolution,
     BaseLoader,
     BaseSolution,
+    BaseSolver,
 )
 from base.results import (
     ErroneousResult,
@@ -32,11 +35,31 @@ class GraphColoringSolution(BaseSolution):
     def __str__(self) -> str:
         return str(self.coloring)
 
+    def get_list(self) -> list[int]:
+        return self.coloring
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, GraphColoringSolution):
+            return NotImplemented
+        return self.coloring == other.coloring
+
     def get_node_color(self, node: int) -> int:
         return self.coloring[node - 1]
 
+    def simplify(self) -> None:
+        """
+        Simplifies the coloring by reassigning colors to be in the range [1, k],
+        where k is the number of unique colors used.
+        """
+        unique_colors = {color: i + 1 for i, color in enumerate(set(self.coloring))}
+        self.coloring = [unique_colors[color] for color in self.coloring]
 
-class GraphColoringLLMSolution(BaseLLMSolution, GraphColoringSolution): ...
+
+class GraphColoringLLMSolution(BaseLLMSolution, GraphColoringSolution):
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, GraphColoringSolution):
+            return NotImplemented
+        return self.coloring == other.coloring
 
 
 @dataclass
@@ -115,6 +138,15 @@ class GraphColoringInstance(BaseInstance[GraphColoringSolution]):
             return SuboptimalResult(
                 solution_string=str(solution), summary_value=num_colors
             )
+
+    def inverted_inst(
+        self, solver: BaseSolver[GraphColoringSolution, GraphColoringInstance] | None
+    ) -> GraphColoringInstance:
+        inst = GraphColoringInstance(graph=self.complement_graph)
+        if solver is not None:
+            inst.optimal_coloring = solver.solve(inst).coloring
+            inst.chromatic_number = len(set(inst.optimal_coloring))
+        return inst
 
     def optimal_value(self, variant: str = "standard") -> int:
         match variant:

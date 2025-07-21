@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 import sys
 from dataclasses import dataclass
@@ -13,6 +15,7 @@ from base.problem_structures import (
     BaseLLMSolution,
     BaseLoader,
     BaseSolution,
+    BaseSolver,
 )
 from base.results import (
     ErroneousResult,
@@ -32,12 +35,24 @@ class TravelingSalesmanSolution(BaseSolution):
     def __str__(self) -> str:
         return str(self.ordering)
 
+    def get_list(self) -> list[int]:
+        return self.ordering
 
-class TravelingSalesmanLLMSolution(BaseLLMSolution, TravelingSalesmanSolution): ...
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, TravelingSalesmanSolution):
+            return NotImplemented
+        return self.ordering == other.ordering
+
+
+class TravelingSalesmanLLMSolution(BaseLLMSolution, TravelingSalesmanSolution):
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, TravelingSalesmanSolution):
+            return NotImplemented
+        return self.ordering == other.ordering
 
 
 def invert_tsp_graph(g: nx.Graph, shift: int = 1) -> nx.Graph:
-    m = max(map(lambda x: x[2]["weight"], edge_data := g.edges(data=True)))
+    m = max(map(lambda x: x[2]["weight"], edge_data := g.edges(data=True)), default=0)
     inverted_data = [
         (u, v, {"weight": m - attr["weight"] + shift}) for u, v, attr in edge_data
     ]
@@ -169,6 +184,16 @@ class TravelingSalesmanInstance(BaseInstance[TravelingSalesmanSolution]):
                 solution_string=str(solution), summary_value=distance
             )
 
+    def inverted_inst(
+        self,
+        solver: BaseSolver[TravelingSalesmanSolution, TravelingSalesmanInstance] | None,
+    ) -> TravelingSalesmanInstance:
+        inst = TravelingSalesmanInstance(graph=invert_tsp_graph(self.graph))
+        if solver is not None:
+            inst.minimum_ordering = solver.solve(inst).ordering
+            inst.minimum_distance = self.compute_distance(inst.minimum_ordering)
+        return inst
+
     def optimal_value(self, variant: str = "standard") -> int:
         match variant:
             case "standard":
@@ -197,6 +222,10 @@ class TravelingSalesmanInstance(BaseInstance[TravelingSalesmanSolution]):
             if j > i
         ]
         return f"{num_nodes}|{','.join(edge_weights)}"
+
+    # def generate_random_trajectory(
+    #     self, variant: str = "standard"
+    # ) -> list[tuple[TravelingSalesmanSolution, int]]: ...
 
 
 @register("traveling-salesman-loader")

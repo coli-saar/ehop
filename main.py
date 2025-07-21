@@ -5,13 +5,8 @@ import sys
 from pathlib import Path
 
 from base.llm_solver import BaseLLMSolver
-from base.results import (
-    ErroneousResult,
-    ILPException,
-    IncompatibleFormatResult,
-    OptimalResult,
-    SuboptimalResult,
-)
+from base.problem_structures import BaseLLMSolution
+from base.results import ILPException, classify_result
 
 # must import these problems so the classes get registered
 from problems import graph_coloring, knapsack, traveling_salesman
@@ -53,17 +48,20 @@ def main() -> None:
     config = Config.load(sys.argv[1])
 
     here = Path(__file__).parent
-    result_dir = here / f"data/results/{config.problem_type}/{config.solver['id']}/"
+    result_dir = here / f"data/results/{config.problem_type}/{config.solver.id}/"
 
     # create the directory if it doesn't exist
     result_dir.mkdir(parents=True, exist_ok=True)
 
-    solver_model = config.solver.get("model")
     result_path = result_dir / (
         (
-            solver_model.split("/")[-1]
-            if solver_model
-            else config.solver.get("strategy") or "results"
+            config.output_filename
+            if config.output_filename
+            else (
+                config.solver.model.split("/")[-1]
+                if config.solver.model
+                else config.solver.strategy or "results"
+            )
         )
         + ".csv"
     )
@@ -86,6 +84,8 @@ def main() -> None:
             columns.insert(1, "Costume")
             columns.insert(3, "Prompting Strategy")
             columns += ["Prompt", "Response"]
+            if solver.client.is_reasoning():
+                columns.append("Reasoning")
         with open(result_path, "w") as f:
             f.write(f"{','.join(columns)}\n")
 
@@ -120,34 +120,24 @@ def main() -> None:
             time = None
             result_type, summary_val, sol_err = "ILPFAILURE", None, str(e)
             if isinstance(solver, BaseLLMSolver):
-                prompt, response = e.prompts, e.responses
+                prompting: tuple[str, ...] | None = e.prompts
+                response: str | tuple[str, ...] | None = e.responses
+                reasoning: str | tuple[str, ...] | None = e.reasons
         else:
-            if isinstance(solver, BaseLLMSolver):
-                prompt, response = solution.prompt, solution.response
-            evaluation = inst.evaluate(solution, variant=variant, verbose=True)
+            if isinstance(solution, BaseLLMSolution):
+                prompting, response, reasoning = (
+                    solution.prompting,
+                    solution.response,
+                    solution.reasoning,
+                )
+            result = inst.evaluate(solution, variant=variant, verbose=True)
 
-            # classify result
-            match evaluation:
-                case OptimalResult(solution_string, summary_value):
-                    result_type, summary_val, sol_err = (
-                        "OPTIMAL",
-                        summary_value,
-                        solution_string,
-                    )
-                case SuboptimalResult(solution_string, summary_value):
-                    result_type, summary_val, sol_err = (
-                        "SUBOPTIMAL",
-                        summary_value,
-                        solution_string,
-                    )
-                case ErroneousResult(reason):
-                    print(f"Erroneous: {reason}")
-                    result_type, summary_val, sol_err = "ERRONEOUS", None, reason
-                case IncompatibleFormatResult(reason):
-                    print(f"Incompatible Format: {reason}")
-                    result_type, summary_val, sol_err = "INCOMPATIBLE", None, reason
-                case _:
-                    raise ValueError("Unrecognized result type")
+            result_type, summary_val, sol_err = classify_result(result)
+
+            if result_type == "ERRONEOUS":
+                print(f"Erroneous: {sol_err}")
+            elif result_type == "INCOMPATIBLE":
+                print(f"Incompatible Format: {sol_err}")
 
         values = [
             problem_name,
@@ -162,7 +152,9 @@ def main() -> None:
         if isinstance(solver, BaseLLMSolver):
             values.insert(1, costume)
             values.insert(3, prompting_strategy)
-            values += [prompt, response]
+            values += [prompting, response]
+            if solver.client.is_reasoning():
+                values.append(reasoning)
 
         with open(result_path, "a+", encoding="utf-8") as f:
             f.write(f"{','.join(csv_stringify(v) for v in values)}\n")

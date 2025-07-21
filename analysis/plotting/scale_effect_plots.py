@@ -16,10 +16,10 @@ from analysis.common_analysis_constants import (
     PROBLEMS,
     SCALE_WORDS,
 )
-from analysis.data_aggregation import master_df
+from utils.analysis.data_aggregation import master_df
 from utils.plotting_utils import get_line_plot_data, load_df
 
-DETAILED_FLAG = False
+DETAILED_FLAG = True
 
 Path("analysis/plots/scale_effect").mkdir(parents=True, exist_ok=True)
 
@@ -43,7 +43,7 @@ for dataset in DATASETS:
     fig = plt.figure(figsize=(20, 8))
     ax = fig.subplots(nrows=1, ncols=3)
 
-    full_df = master_df(dataset)
+    full_df = master_df(dataset, llms=LLMS[:2])
 
     greedy_strats = (
         GREEDY_STRAT_LIST
@@ -58,12 +58,12 @@ for dataset in DATASETS:
 
         ax[i].grid(which="both", linewidth=2)
 
-        for j, (llm, llm_name) in enumerate(zip(LLMS, LLM_FULL_NAMES)):
+        for j, (llm, llm_name) in enumerate(zip(LLMS[:2], LLM_FULL_NAMES[:2])):
             df = problem_df[problem_df["LLM"] == llm]
 
             if DETAILED_FLAG:
                 prompt_strats = ["one_shot_cot", "ilp_python"]
-                sns.set_palette("tab10", n_colors=len(LLMS))  # + 1)  # +1 for llama 3.3
+                sns.set_palette("tab10", n_colors=len(LLMS))
                 for k, prompt_strat in enumerate(prompt_strats):
                     line = get_line_plot_data(
                         df[
@@ -73,6 +73,7 @@ for dataset in DATASETS:
                         ],
                         groupby=["Scale", "Result Type"],
                     )
+                    print(f"{dataset},{abbreviation},{llm},{prompt_strat},{line[1]}")
                     ax[i].plot(
                         line[0],
                         line[1],
@@ -135,6 +136,7 @@ for dataset in DATASETS:
 
         if greedy_types:
             line = greedy_results[problem][greedy_types[0]]
+            print(line[1])
             ax[i].plot(
                 line[0],
                 line[1],

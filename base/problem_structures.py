@@ -1,9 +1,13 @@
+from __future__ import annotations
+
 import sys
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
 from time import perf_counter
 from typing import Generic, TypeVar
+
+from typing_extensions import Self
 
 sys.path.insert(1, "../ehop")  # To be run from the top-level ehop directory
 
@@ -28,6 +32,18 @@ class BaseSolution(ABC):
     @abstractmethod
     def __str__(self) -> str: ...
 
+    @abstractmethod
+    def get_list(self) -> list[int]:
+        """
+        Returns a list representing the solution.
+        The list is formatted the same way as the solution string.
+        In other words, it mimics how the solution would be produced by an LLM.
+        """
+        ...
+
+    @abstractmethod
+    def __eq__(self, other: object) -> bool: ...
+
 
 @dataclass
 class BaseLLMSolution(BaseSolution):
@@ -36,10 +52,15 @@ class BaseLLMSolution(BaseSolution):
     """
 
     def __init__(
-        self, prompt: tuple[str, ...], response: str | tuple[str, ...], **kwargs
+        self,
+        prompting: tuple[str, ...],
+        response: str | tuple[str, ...],
+        reasoning: str | tuple[str, ...] | None = None,
+        **kwargs,
     ) -> None:
-        self.prompt = prompt
+        self.prompting = prompting
         self.response = response
+        self.reasoning = reasoning
         super().__init__(**kwargs)
 
 
@@ -58,10 +79,9 @@ class BaseInstance(ABC, Generic[T_Solution]):
     ) -> Result: ...
 
     @abstractmethod
-    def reasonable_encoding(self) -> str:
+    def inverted_inst(self, solver: BaseSolver[T_Solution, Self] | None) -> Self:
         """
-        Provides a string that encodes all of the information about the instance in a "reasonable" way.
-        This can be used to measure the scale of the instance, and was inspired by the book Computers and Intractability (Garey & Johnson).
+        Returns the inverted version of the instance.
         """
         ...
 
@@ -69,6 +89,14 @@ class BaseInstance(ABC, Generic[T_Solution]):
     def optimal_value(self, variant: str = "standard") -> int:
         """
         Returns the optimal value for the instance, whatever that means for the given problem type.
+        """
+        ...
+
+    @abstractmethod
+    def reasonable_encoding(self) -> str:
+        """
+        Provides a string that encodes all of the information about the instance in a "reasonable" way.
+        This can be used to measure the scale of the instance, and was inspired by the book Computers and Intractability (Garey & Johnson).
         """
         ...
 

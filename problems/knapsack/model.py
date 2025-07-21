@@ -1,11 +1,15 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from base.problem_structures import (
     BaseInstance,
     BaseLLMSolution,
     BaseLoader,
     BaseSolution,
+    BaseSolver,
 )
 from base.results import (
     ErroneousResult,
@@ -23,10 +27,26 @@ class KnapsackSolution(BaseSolution):
     selected_items: list[int]  # 0-based indices of selected items
 
     def __str__(self) -> str:
-        return str(self.selected_items)
+        return (
+            str([idx + 1 for idx in self.selected_items])
+            if self.selected_items
+            else "None Selected"
+        )
+
+    def get_list(self) -> list[int]:
+        return [idx + 1 for idx in self.selected_items]
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, KnapsackSolution):
+            return NotImplemented
+        return self.selected_items == other.selected_items
 
 
-class KnapsackLLMSolution(BaseLLMSolution, KnapsackSolution): ...
+class KnapsackLLMSolution(BaseLLMSolution, KnapsackSolution):
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, KnapsackSolution):
+            return NotImplemented
+        return self.selected_items == other.selected_items
 
 
 @dataclass
@@ -123,6 +143,20 @@ class KnapsackInstance(BaseInstance[KnapsackSolution]):
             return OptimalResult(str(solution), total_value)
         else:
             return SuboptimalResult(str(solution), total_value)
+
+    def inverted_inst(
+        self, solver: BaseSolver[KnapsackSolution, KnapsackInstance] | None
+    ) -> KnapsackInstance:
+        inst = KnapsackInstance(
+            num_items=self.num_items,
+            profits=self.profits,
+            weights=self.weights,
+            capacity=self.complement_capacity,
+        )
+        if solver is not None:
+            inst.optimal_items = solver.solve(inst).selected_items
+            inst.optimal_profit = sum(inst.profits[i] for i in inst.optimal_items)
+        return inst
 
     def optimal_value(self, variant: str = "standard") -> int:
         match variant:

@@ -58,7 +58,7 @@ def extract_code(response: str) -> str:
         # if the number of sections is odd, the code is in the second-to-last section
         # if the number of sections is even, we assume the code was cut off and is in the last section
         code = sections[n - 2] if n % 2 == 1 else sections[n - 1]
-        return code.split("\n", 1)[1].strip()
+        return code.split("\n", 1)[1].strip() if "\n" in code else code.strip()
 
 
 def extract_lp_code(response: str) -> str:

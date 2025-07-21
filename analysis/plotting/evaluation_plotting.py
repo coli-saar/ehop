@@ -15,7 +15,7 @@ from analysis.common_analysis_constants import (
     PROMPTING_STRATEGIES,
     VARIANTS,
 )
-from analysis.data_aggregation import master_df
+from utils.analysis.data_aggregation import master_df
 from utils.plotting_utils import (
     Plotter,
     accuracy_df,

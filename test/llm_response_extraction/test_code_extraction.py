@@ -54,7 +54,16 @@ class CodeExtractionGood(unittest.TestCase):
         code = extract_code(input_string)
         self.assertEqual(code, "# This is a comment\nx = 5")
 
-    def test_code_with_intro_andoutro(self):
+    def test_single_line(self):
+        input_string = dedent(
+            """\
+            ```x = 5```
+            Hope that helps!"""
+        )
+        code = extract_code(input_string)
+        self.assertEqual(code, "x = 5")
+
+    def test_code_with_intro_and_outro(self):
         input_string = dedent(
             """\
             Here is some Python code that assigns the value 5 to the variable x:

@@ -3,6 +3,7 @@ from random import randint
 import networkx as nx
 
 from base.problem_structures import BaseSolver
+from base.results import ValidResult
 from utils.utils import register
 
 from .model import GraphColoringInstance, GraphColoringSolution
@@ -40,4 +41,27 @@ class GraphColoringRandom(BaseSolver[GraphColoringSolution, GraphColoringInstanc
 
     def solve(self, inst: GraphColoringInstance) -> GraphColoringSolution:
         n = inst.graph.number_of_nodes()
-        return GraphColoringSolution(coloring=[randint(1, n) for _ in range(n)])
+        sol = GraphColoringSolution(coloring=[randint(1, n) for _ in range(n)])
+        sol.simplify()
+        return sol
+
+
+@register("graph-coloring-random-valid")
+class GraphColoringRandomValid(
+    BaseSolver[GraphColoringSolution, GraphColoringInstance]
+):
+    """
+    A random solver for generating a sequence of numbers that looks like a coloring
+    guaranteed to be a valid solution.
+    """
+
+    def solve(self, inst: GraphColoringInstance) -> GraphColoringSolution:
+        n = inst.graph.number_of_nodes()
+        sol = GraphColoringSolution(coloring=[randint(1, n) for _ in range(n)])
+        sol.simplify()
+        while not isinstance(inst.evaluate(sol, variant=self.variant), ValidResult):
+            for x, y in inst.graph.edges:
+                if sol.coloring[x - 1] == sol.coloring[y - 1]:
+                    sol.coloring[x - 1] = max(sol.coloring) + 1
+            sol.simplify()
+        return sol

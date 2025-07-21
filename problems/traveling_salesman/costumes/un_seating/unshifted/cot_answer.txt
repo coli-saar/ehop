@@ -1,0 +1,19 @@
+We start with representative 1 in the Director Seat, with the remaining order undecided.
+Current Seating Order: 1    Remaining Representatives: 2,3,4,5,6,7,8,9
+Of the remaining representatives, representative 5 has the highest tension score with representative 1 (78), so we add them to the order.
+Current Seating Order: 1,5    Remaining Representatives: 2,3,4,6,7,8,9
+Of the remaining representatives, representative 8 has the highest tension score with representative 5 (78), so we add them to the order.
+Current Seating Order: 1,5,8    Remaining Representatives: 2,3,4,6,7,9
+Of the remaining representatives, representative 7 has the highest tension score with representative 8 (81), so we add them to the order.
+Current Seating Order: 1,5,8,7    Remaining Representatives: 2,3,4,6,9
+Of the remaining representatives, representative 2 has the highest tension score with representative 7 (73), so we add them to the order.
+Current Seating Order: 1,5,8,7,2    Remaining Representatives: 3,4,6,9
+Of the remaining representatives, representative 4 has the highest tension score with representative 2 (68), so we add them to the order.
+Current Seating Order: 1,5,8,7,2,4    Remaining Representatives: 3,6,9
+Of the remaining representatives, representative 6 has the highest tension score with representative 4 (71), so we add them to the order.
+Current Seating Order: 1,5,8,7,2,4,6    Remaining Representatives: 3,9
+Of the remaining representatives, representative 3 has the highest tension score with representative 6 (66), so we add them to the order.
+Current Seating Order: 1,5,8,7,2,4,6,3    Remaining Representatives: 9
+Of the remaining representatives, representative 9 has the highest tension score with representative 3 (49), so we add them to the order.
+We thus have the following seating order:
+1,5,8,7,2,4,6,3,9

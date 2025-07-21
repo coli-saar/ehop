@@ -25,7 +25,7 @@ for problem, abbrev in zip(PROBLEMS, ABBREVS):
         for llm in LLMS:
             print(llm)
 
-            results_folder = f"data/results/{problem}/{problem.replace('_', '-')}-llm/{llm.lower()}/{dataset}_dataset/"
+            results_folder = f"data/results/{problem}/{problem.replace('_', '-')}-llm/{llm.lower().replace(' ', '')}/{dataset}_dataset/"
 
             original_files = [
                 results_folder + f"{name}.csv"

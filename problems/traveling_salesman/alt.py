@@ -40,8 +40,8 @@ class TravelingSalesmanRandom(
     BaseSolver[TravelingSalesmanSolution, TravelingSalesmanInstance]
 ):
     """
-    A random solver for generating a sequence of locations,
-    with no guarantees of optimality.
+    A random solver for generating a sequence of locations
+    guaranteed to be a valid solution.
     """
 
     def solve(self, inst: TravelingSalesmanInstance) -> TravelingSalesmanSolution:

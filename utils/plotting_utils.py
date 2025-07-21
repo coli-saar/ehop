@@ -1,11 +1,13 @@
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-RESULT_TYPES = ["OPTIMAL", "SUBOPTIMAL", "ERRONEOUS", "INCOMPATIBLE", "ILPFAILURE"]
-VARIANTS = ["standard", "inverted"]
+sys.path.insert(1, "../ehop")  # To be run from the top-level ehop directory
+
+from analysis.common_analysis_constants import RESULT_TYPES, VARIANTS
 
 
 def load_df(
@@ -22,6 +24,9 @@ def load_df(
         df = df[df["Problem Name"].str.startswith(problem_prefix)].reset_index(
             drop=True
         )
+
+    if "Response" in df.columns:
+        df["Response"] = df["Response"].astype(str)
 
     # Add Scale column as another proxy for problem difficulty
     if extract_scale:
@@ -84,6 +89,7 @@ def get_line_plot_data(
         .iloc[:, 0]
         .unstack(level=-1, fill_value=0)
         .apply(lambda row: row / row.sum() * 100, axis=1)
+        .round(1)
     )
 
     acc = percentages[last_group_val]
@@ -186,10 +192,10 @@ class Plotter:
         self,
         df: pd.DataFrame,
         costumes: list[str],
-        title_prefix: str = "",
-        groupby: list[str] = ["Scale", "Result Type"],
         variants: list[str] = VARIANTS,
+        groupby: list[str] = ["Scale", "Result Type"],
         last_group_val: str = "OPTIMAL",
+        title_prefix: str = "",
         filename: str = "Costume_Variant_Lineplot.png",
         **kwargs,
     ):

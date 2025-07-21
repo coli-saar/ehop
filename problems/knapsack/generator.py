@@ -28,7 +28,9 @@ class KnapsackGenerator(
         n = scale
         profits = [random.randint(1, n) for _ in range(n)]
         weights = [random.randint(1, n) for _ in range(n)]
-        capacity = random.randint(min(weights), sum(weights) - 1)
+        capacity = random.randint(
+            min(weights), sum(weights) - 1
+        )  # In retrospect, it would be better to use the max weight instead of the min as the lower bound
 
         inst = KnapsackInstance(
             num_items=n,

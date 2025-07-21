@@ -14,7 +14,7 @@ from analysis.common_analysis_constants import (
     LLMS,
     PROBLEMS,
 )
-from analysis.data_aggregation import master_df
+from utils.analysis.data_aggregation import master_df
 from utils.plotting_utils import get_line_plot_data, load_df
 
 comparison_sets: dict[str, list[str]] = {
